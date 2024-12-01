@@ -4,18 +4,25 @@
     {
         public class DilemmaPlayer(byte pType)
         {
-            private readonly byte playerType = pType;
-            public int playerScore;
-
-            public byte ShowType()
-            {
-                return playerType;
-            }
 
             private bool playerValue = true;
             private bool isFirst = true;
+            private byte playerType = pType;
+            public int playerScore;
+
             private readonly Random rnd = new();
 
+            public byte Type()
+            {
+                return playerType;
+            }
+            public void Type(byte? type)
+            {
+                if (type is byte newType)
+                {
+                    playerType = newType;
+                }
+            }
             public bool PlayerFunction(byte pType, ref bool? enemyValue)
             {
                 var value = pType switch
@@ -28,25 +35,21 @@
                 };
                 return value;
             }
-
             public bool Cooperate
             {
                 get
                 { playerValue = true; return playerValue; }
             }
-
             public bool Defect
             {
                 get
                 { playerValue = false; return playerValue; }
             }
-
             public bool Randomize
             {
                 get
                 { playerValue = Math.Round(rnd.NextSingle()) == 1; return playerValue; }
             }
-
             public bool TitForTat(bool? enemyValue)
             {
                 if (isFirst)
@@ -62,6 +65,8 @@
 
             public static (int, int) Score(ref int playerScore, ref int enemyScore, int iterations, List<bool> playerValues, List<bool> enemyValues)
             {
+                playerScore = 0;
+                enemyScore = 0;
                 for (int i = 0; i < iterations; i++)
                 {
                     switch ((playerValues[i], enemyValues[i]))
