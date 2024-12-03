@@ -6,8 +6,8 @@
         {
 
             private bool playerValue = true;
-            private bool isFirst = true;
             private byte playerType = pType;
+            public bool isFirst = true;
             public int playerScore;
 
             private readonly Random rnd = new();
@@ -54,6 +54,7 @@
             {
                 if (isFirst)
                 {
+                    playerValue = true;
                     isFirst = false;
                 }
                 else if (enemyValue is bool eValue)
@@ -63,10 +64,13 @@
                 return playerValue;
             }
 
-            public static (int, int) Score(ref int playerScore, ref int enemyScore, int iterations, List<bool> playerValues, List<bool> enemyValues)
+            public static (int, int) Score(ref int playerScore, ref int enemyScore, int iterations, List<bool> playerValues, List<bool> enemyValues, bool mode)
             {
-                playerScore = 0;
-                enemyScore = 0;
+                if (mode)
+                {
+                    playerScore = 0;
+                    enemyScore = 0;
+                }
                 for (int i = 0; i < iterations; i++)
                 {
                     switch ((playerValues[i], enemyValues[i]))
